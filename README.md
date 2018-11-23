@@ -49,3 +49,6 @@ Walking bit test        : PASS
 All tests PASSED - HALT
 ```
 
+Credits:
+
+Memory test method lifted from http://www.ballyalley.com/ml/ml_source/RAM%20Test%20[From%20Z80%20Assembly%20Language%20Subroutines].pdf
