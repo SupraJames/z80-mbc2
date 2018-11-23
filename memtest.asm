@@ -23,7 +23,7 @@ lf				.equ	$0a				; Line feed
 	ld		HL, MSGSTART
 	CALL	puts
 	LD		HL, $8300
-	LD		DE, $7C00
+	LD		DE, $7CFF
 	CALL	RAMTST
 	CALL	CHKERROR
 
@@ -107,7 +107,7 @@ MSG00		.BYTE	"Read and write 00000000 : ", eos
 MSGFF		.BYTE	"Read and write 11111111 : ", eos
 MSGAA		.BYTE	"Read and write 10101010 : ", eos
 MSG55		.BYTE	"Read and write 01010101 : ", eos
-MSGWLK		.BYTE	"Walking bit test		 : ", eos
+MSGWLK		.BYTE	"Walking bit test        : ", eos
 MSGBANK		.BYTE	cr, lf, "Switching to BANK ", eos
 MSGALLPASS	.BYTE	cr, lf, "All tests PASSED - HALT", cr, lf, eos
 
