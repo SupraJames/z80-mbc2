@@ -9,7 +9,8 @@ I have been testing it by simply pasting the .hex file into iLoad.
 
 Sample output:
 
-```Memory test starting
+```
+Memory test starting
 [7C00] bytes starting from address [8300]
 Read and write 00000000 : PASS
 Read and write 11111111 : PASS
