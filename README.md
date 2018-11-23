@@ -5,6 +5,8 @@ memtest.asm / memtest.hex:
 
 This program tests the memory of the Z80-MBC2. It loads itself into the top half of RAM at address $8000 so that we can use bank switching to test all three 'bottom' banks.
 
+Because the memory is overwritten during the test, we avoid the first 0x300 bytes of the top half of RAM, and the last 0xFF bytes to avoid killing the stack.
+
 I have been testing it by simply pasting the .hex file into iLoad.
 
 Sample output:
