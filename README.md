@@ -7,6 +7,8 @@ This program tests the memory of the Z80-MBC2. It loads itself into the top half
 
 Because the memory is overwritten during the test, we avoid the first 0x300 bytes of the top half of RAM, and the last 0xFF bytes to avoid killing the stack.
 
+If we encounter an error, the program will HALT and tell you which address and bit pattern caused the issue.
+
 I have been testing it by simply pasting the .hex file into iLoad.
 
 Sample output:
