@@ -2,7 +2,7 @@
 ; James Pattinson 2018
 ;
 ; TESTS THE FOLLOWING REGIONS OF MEMORY
-; $8300 - $FF00			; Bit ugly but avoids this program and the stack
+; $8300 - $FFFF			; Bit ugly but avoids this program and stack
 ; $0000 - $7FFF BANK 0
 ; $0000 - $7FFF BANK 1
 ; $0000 - $7FFF BANK 2
@@ -19,7 +19,7 @@ lf				.equ	$0a				; Line feed
 	ORG $0						; Force the HEX output of zasm to start at $8000
 	ORG $8000					;
 
-	LD		SP, $FFFF
+	LD		SP, $82FF
 	ld		HL, MSGSTART
 	CALL	puts
 	LD		HL, $8300
