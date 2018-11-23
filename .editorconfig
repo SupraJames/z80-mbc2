@@ -1,1 +1,15 @@
-indent_style = tab and indent_size = 4
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+
+# Matches multiple files with brace expansion notation
+[*.{js,jsx,html,sass,asm}]
+charset = utf-8
+indent_style = tab
+indent_size = 4
+trim_trailing_whitespace = true
+
+[*.md]
+trim_trailing_whitespace = false
