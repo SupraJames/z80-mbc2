@@ -1,4 +1,5 @@
-; Z80-MDB2 MEMORY TEST PROGRAM
+; Z80-MBC2 MEMORY TEST PROGRAM
+; James Pattinson 2018
 ;
 ; TESTS THE FOLLOWING REGIONS OF MEMORY
 ; $8300 - $FF00			; Bit ugly but avoids this program and the stack
@@ -6,17 +7,17 @@
 ; $0000 - $7FFF BANK 1
 ; $0000 - $7FFF BANK 2
 
-rx_port         .equ    $01             ; IOS "serial Rx" read port address
-opcode_port     .equ    $01             ; IOS opcode write port address
-exec_wport      .equ    $00             ; IOS "execute opcode" write port address
-tx_opcode       .equ    $01             ; IOS "serial Tx" operation opcode
-sb_opcode		.equ	$0d				; IOS "switch bank" opcode
-eos             .equ    $00             ; End of string
-cr              .equ    $0d             ; Carriage return
-lf              .equ    $0a             ; Line feed
+rx_port			.equ	$01				; IOS "serial Rx" read port address
+opcode_port		.equ	$01				; IOS opcode write port address
+exec_wport		.equ	$00				; IOS "execute opcode" write port address
+tx_opcode		.equ	$01				; IOS "serial Tx" operation opcode
+sb_opcode	.equ	$0d				; IOS "switch bank" opcode
+eos				.equ	$00				; End of string
+cr				.equ	$0d				; Carriage return
+lf				.equ	$0a				; Line feed
 
-	ORG	$0						; Force the HEX output of zasm to start at $8000
-	ORG	$8000					;
+	ORG $0						; Force the HEX output of zasm to start at $8000
+	ORG $8000					;
 	
 	LD		SP, $FFFF
 	ld		HL, MSGSTART
@@ -103,10 +104,10 @@ MSGOK		.BYTE	"PASS", cr, lf, eos
 MSGERROR	.BYTE	"Test failed at address ", eos
 MSGBITS		.BYTE	" with bit pattern ", eos
 MSG00		.BYTE	"Read and write 00000000 : ", eos
-MSGFF 		.BYTE	"Read and write 11111111 : ", eos
+MSGFF		.BYTE	"Read and write 11111111 : ", eos
 MSGAA		.BYTE	"Read and write 10101010 : ", eos
 MSG55		.BYTE	"Read and write 01010101 : ", eos
-MSGWLK		.BYTE	"Walking bit test        : ", eos
+MSGWLK		.BYTE	"Walking bit test		 : ", eos
 MSGBANK		.BYTE	cr, lf, "Switching to BANK ", eos
 MSGALLPASS	.BYTE	cr, lf, "All tests PASSED - HALT", cr, lf, eos
 
@@ -171,7 +172,7 @@ RAMTST:
 	CALL	puts
 	POP		HL	
 WLKLP:
-	LD		A, $80 		; BINARY 1000000
+	LD		A, $80		; BINARY 1000000
 WLKLP1:
 	LD		(HL), A		; STORE TEST PATTERN IN MEMORY
 	CP		(HL)		; TRY TO READ IT BACK
@@ -189,7 +190,7 @@ WLKLP1:
 	PUSH	HL
 	LD		HL, MSGOK
 	CALL	puts
-	POP 	HL
+	POP		HL
 	RET					; NO ERRORS
 	
 FILCMP:
@@ -235,7 +236,7 @@ CMPLP:
 	PUSH	HL
 	LD		HL, MSGOK
 	CALL	puts
-	POP 	HL
+	POP		HL
 	RET
 	
 	; ERROR EXIT, SET CARRY
@@ -250,28 +251,28 @@ CMPER:
 ; Send a string to the serial line, HL contains the pointer to the string
 ;
 
-puts            push    af
-                push    hl
-puts_loop       ld      a, (hl)
-                cp      eos             ; End of string reached?
-                jr      z, puts_end     ; Yes
-                call    putc
-                inc     hl              ; Increment character pointer
-                jr      puts_loop       ; Transmit next character
-puts_end        pop     hl
-                pop     af
-                ret
+puts			push	af
+				push	hl
+puts_loop		ld		a, (hl)
+				cp		eos				; End of string reached?
+				jr		z, puts_end		; Yes
+				call	putc
+				inc		hl				; Increment character pointer
+				jr		puts_loop		; Transmit next character
+puts_end		pop		hl
+				pop		af
+				ret
 
 ;
 ; Send a single character to the serial line (A contains the character)
 ;
 
-putc            push    af              ; Save A
-                ld      a, tx_opcode    ; A = IOS Serial Tx operation opcode
-                out     (opcode_port), a; Send to IOS the Tx operation opcode
-                pop     af              ; Restore the output char into A
-                out     (exec_wport), a ; Write A to the serial
-                ret
+putc			push	af				; Save A
+				ld		a, tx_opcode	; A = IOS Serial Tx operation opcode
+				out		(opcode_port), a; Send to IOS the Tx operation opcode
+				pop		af				; Restore the output char into A
+				out		(exec_wport), a ; Write A to the serial
+				ret
 
 ;; Display '[aaaa]' - address of HL
 dispadd:
@@ -322,20 +323,20 @@ TOHEX:
 
 ; LOOKUP TABLE FOR TOHEX ROUTINE
 DATA:
-		DEFB	30h	; 0
-		DEFB	31h	; 1
-		DEFB	32h	; 2
-		DEFB	33h	; 3
-		DEFB	34h	; 4
-		DEFB	35h	; 5
-		DEFB	36h	; 6
-		DEFB	37h	; 7
-		DEFB	38h	; 8
-		DEFB	39h	; 9
-		DEFB	41h	; A
-		DEFB	42h	; B
-		DEFB	43h	; C
-		DEFB	44h	; D
-		DEFB	45h	; E
-		DEFB	46h	; F
+		DEFB	30h ; 0
+		DEFB	31h ; 1
+		DEFB	32h ; 2
+		DEFB	33h ; 3
+		DEFB	34h ; 4
+		DEFB	35h ; 5
+		DEFB	36h ; 6
+		DEFB	37h ; 7
+		DEFB	38h ; 8
+		DEFB	39h ; 9
+		DEFB	41h ; A
+		DEFB	42h ; B
+		DEFB	43h ; C
+		DEFB	44h ; D
+		DEFB	45h ; E
+		DEFB	46h ; F
 	
