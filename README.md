@@ -52,3 +52,7 @@ All tests PASSED - HALT
 Credits:
 
 Memory test method lifted from http://www.ballyalley.com/ml/ml_source/RAM%20Test%20[From%20Z80%20Assembly%20Language%20Subroutines].pdf
+
+monitor.asm / monitor.hex
+
+This is a simple Z80 Monitor program. I've taken it from https://github.com/fiskabollen/z80Monitor and adapted it for Z80-MBC2 I/O and added a command to switch banks.
