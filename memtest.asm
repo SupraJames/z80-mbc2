@@ -20,57 +20,20 @@ lf				.equ	$0a				; Line feed
 	ORG $8000					;
 
 	LD		SP, $82FF
-	ld		HL, MSGSTART
+	LD		HL, MSGSTART
 	CALL	puts
 	LD		HL, $8300
 	LD		DE, $7CFF
 	CALL	RAMTST
 	CALL	CHKERROR
 
-	LD		HL, MSGBANK
-	CALL	puts
-	LD		A, '0'
-	CALL	putc
-	LD		A, cr
-	CALL	putc
-	ld		A, lf
-	CALL	putc
-	LD		B, $00
-	CALL	DOSWITCH
-	LD		HL, $0000
-	LD		DE, $7FFF
-	CALL	RAMTST
-	CALL	CHKERROR
-
-	LD		HL, MSGBANK
-	CALL	puts
-	LD		A, '1'
-	CALL	putc
-	LD		A, cr
-	CALL	putc
-	ld		A, lf
-	CALL	putc
-	LD		B, $01
-	CALL	DOSWITCH
-	LD		HL, $0000
-	LD		DE, $7FFF
-	CALL	RAMTST
-	CALL	CHKERROR
-
-	LD		HL, MSGBANK
-	CALL	puts
-	LD		A, '2'
-	CALL	putc
-	LD		A, cr
-	CALL	putc
-	ld		A, lf
-	CALL	putc
-	LD		B, $02
-	CALL	DOSWITCH
-	LD		HL, $0000
-	LD		DE, $7FFF
-	CALL	RAMTST
-	CALL	CHKERROR
+    LD      A, $0
+    CALL    TESTBANK
+    LD      A, $1
+    CALL    TESTBANK
+    LD      A, $2
+    CALL    TESTBANK
+    
 	LD		HL, MSGALLPASS
 	CALL	puts
 	HALT
@@ -89,13 +52,26 @@ CHKERROR:
 	CALL	hexout
 	HALT
 
-DOSWITCH:
-	PUSH AF
-	LD A, sb_opcode
-	OUT (opcode_port), A
-	LD A, B
-	OUT (exec_wport), A
-	POP AF
+TESTBANK:
+    ; A contains bank to switch to and test.
+    ; Displays message and switches bank
+	LD      B, A
+    LD		HL, MSGBANK
+	CALL	puts
+    ADD     A, '0'
+	CALL	putc
+	LD		A, cr
+	CALL	putc
+	ld		A, lf
+	CALL	putc
+	LD A,   sb_opcode
+	OUT     (opcode_port), A
+	LD      A, B
+	OUT     (exec_wport), A
+    LD		HL, $0000
+	LD		DE, $7FFF
+	CALL	RAMTST
+	CALL	CHKERROR
 	RET
 
 MSGSTART	.BYTE	"Memory test starting", cr, lf, eos
@@ -339,4 +315,3 @@ DATA:
 		DEFB	44h ; D
 		DEFB	45h ; E
 		DEFB	46h ; F
-
