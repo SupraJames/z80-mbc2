@@ -56,3 +56,7 @@ Memory test method lifted from http://www.ballyalley.com/ml/ml_source/RAM%20Test
 monitor.asm / monitor.hex
 
 This is a simple Z80 Monitor program. I've taken it from https://github.com/fiskabollen/z80Monitor and adapted it for Z80-MBC2 I/O and added a command to switch banks.
+
+sketch-lcd
+
+This is the same as Just4Fun's S220718-R190918 sketch for the Arduino powered IOS, with my local customisations. I have an I2C LCD attached which displays some debug info.
