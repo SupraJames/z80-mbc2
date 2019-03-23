@@ -967,7 +967,13 @@ void loop()
             //lcd.setCursor(0,3);
             lcd.print((char)ioData);
           }
-          
+        break;
+
+        case 0x0F:
+          // Positon cursor to begin of line ioData + 1
+          if (lcdPresent) {
+            lcd.setCursor(0,ioData+1);
+          }
         break;
         
         case  0x08:
