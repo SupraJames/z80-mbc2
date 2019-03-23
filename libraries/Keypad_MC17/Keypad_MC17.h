@@ -61,21 +61,21 @@ public:
 	void pin_write(byte pinNum, boolean level);
 	int  pin_read(byte pinNum);
 	// read initial value for pinState
-	word pinState_set( );
+	byte pinState_set( );
 	// write a whole word to i2c port
-	void port_write( word i2cportval );
+	void port_write( byte i2cportval );
 	// access functions for IODIR state copy
-	word iodir_read( );
-	void iodir_write( word iodir );
+	byte iodir_read( );
+	void iodir_write( byte iodir );
 
 private:
     // I2C device address
     byte i2caddr;
 	// I2C pin_write state persistant storage
-	word pinState;
+	byte pinState;
 //	byte pin_iosetup( );
 	// MC17 setup
-	word iodir_state;    // copy of IODIR register
+	byte iodir_state;    // copy of IODIR register
 	void _begin( void );
 };
 
