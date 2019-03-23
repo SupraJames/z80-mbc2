@@ -1,18 +1,19 @@
-01 REM ****************************************
-02 REM
-03 REM Z80-MBC2 GPIO B and Keypad Test Program
-04 REM
-05 REM ****************************************
-10 OUT 1,6 : REM IODIRB
+1 REM ****************************************
+2 REM
+3 REM Z80-MBC2 GPIO B and Keypad Test Program
+4 REM
+5 REM ****************************************
 20 OUT 0,255 : REM ALL INPUTS
 30 OUT 1,8 : REM GPPUB
 40 OUT 0,255 : REM ALL PULLUPS ACTIVE
 100 OUT 1,130 : REM GPIOB READ
 110 CHAR=INP(0)
-120 IF CHAR<255 THEN GOTO 140
+120 IF CHAR<255 THEN GOTO 145
 121 OUT 1,136 : REM READ KEYPAD
 122 CHAR=INP(0)
 123 IF CHAR<255 THEN GOTO 140
 130 GOTO 100
-140 PRINT CHAR : REM Display it
+140 PRINT CHR$(CHAR)
+142 GOTO 100
+145 PRINT CHAR
 150 GOTO 100
