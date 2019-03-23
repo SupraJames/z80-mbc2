@@ -185,9 +185,10 @@ char keys[ROWS][COLS] = {
   {'7','6','5','4'},
   {'3','2','1','0'}
 };
-byte rowPins[ROWS] = {2, 6, 3, 7}; //connect to the row pinouts of the keypad
-byte colPins[COLS] = {0, 4, 1, 5}; //connect to the column pinouts of the keypad
-
+//byte rowPins[ROWS] = {2, 6, 3, 7}; //connect to the row pinouts of the keypad
+//byte colPins[COLS] = {0, 4, 1, 5}; //connect to the column pinouts of the keypad
+byte rowPins[ROWS] = {5,1,4,0}; //connect to the row pinouts of the keypad
+byte colPins[COLS] = {7,3,6,2}; //connect to the column pinouts of the keypad
 // ------------------------------------------------------------------------------
 //
 //  Constants
@@ -344,6 +345,8 @@ void setup()
     lcdPresent = 1;
   }
   if (lcdPresent) lcd.print("Z80-MBC2 Alive B");
+
+  keypad.begin();
 
   // ----------------------------------------
   // INITIALIZATION
@@ -961,7 +964,7 @@ void loop()
         case  0x0E:
           // Write something to the LCD:
           if (lcdPresent) {
-            lcd.setCursor(0,3);
+            //lcd.setCursor(0,3);
             lcd.print((char)ioData);
           }
           
@@ -1304,12 +1307,6 @@ void loop()
           //
           ioData = 0xFF;
           if (Serial.available() > 0) ioData = Serial.read();
-          else {
-            char key = keypad.getKey();
-            if (key){
-              ioData = key;
-            }
-          }
           digitalWrite(INT_, HIGH);
         }
         else
@@ -1555,7 +1552,15 @@ void loop()
             //         ERRDISK opcode
 
             ioData = mountSD(&filesysSD);
-          break;          
+          break;
+
+          case 0x88:
+            // TODO Keypad read char
+            ioData = 0xFF;
+            char key = keypad.getKey();
+            if (key) ioData = key;
+          break;
+
           }
           if ((ioOpcode != 0x84) && (ioOpcode != 0x86)) ioOpcode = 0xFF;  // All done for the single byte opcodes. 
                                                                           //  Set ioOpcode = "No operation"
