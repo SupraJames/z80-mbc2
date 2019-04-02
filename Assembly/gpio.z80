@@ -1,0 +1,47 @@
+OPCODE   EQU 01H
+EXEC     EQU 00H
+IODIRB   EQU 06H
+GPPUB    EQU 08H
+GPIOB    EQU 82H
+
+A_CR     EQU 0DH
+A_LF     EQU 0AH
+EOS      EQU '$'
+
+KEY1     EQU 127
+KEY2     EQU 191
+KEY3     EQU 223
+KEY4     EQU 239
+
+bdos     equ 5
+start:   LD C,9
+         LD DE,msg
+         call bdos
+         LD A, GPPUB
+         OUT (OPCODE), A
+         LD A, 255
+         OUT (EXEC), A
+
+LOOP:    LD A, GPIOB
+         OUT (OPCODE), A
+         IN A, 0
+         CP KEY1
+         CALL Z, K1P
+         CP KEY4
+         ;CALL Z, K4P
+         RET Z
+         JP LOOP
+
+K1P:     LD DE, K1T
+         LD C,9
+         CALL BDOS
+         RET
+K4P:     LD DE, K4T
+         LD C,9
+         CALL BDOS
+         RET
+
+K1T:     DB 'YOU PRESSED KEY 1',A_CR,A_LF,EOS
+K4T:     DB 'YOU PRESSED KEY 4, EXITING',A_CR,A_LF,EOS
+
+msg:     db 'Press a key',A_CR,A_LF,EOS
